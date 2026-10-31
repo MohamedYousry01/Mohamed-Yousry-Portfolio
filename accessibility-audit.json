@@ -1,0 +1,205 @@
+{
+  "status": "complete",
+  "checks": 33,
+  "failed": 0,
+  "results": [
+    {
+      "path": "/",
+      "width": 1440,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/",
+      "width": 1440,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/about/",
+      "width": 1440,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/experience/",
+      "width": 1440,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/contact/",
+      "width": 1440,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/icu-ventilator-firmware/",
+      "width": 1440,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/hardware-backed-cybersecurity/",
+      "width": 1440,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/secure-boot-firmware-update/",
+      "width": 1440,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/real-time-control-algorithms/",
+      "width": 1440,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/safety-critical-verification/",
+      "width": 1440,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/medical-device-compliance/",
+      "width": 1440,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/",
+      "width": 768,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/",
+      "width": 768,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/about/",
+      "width": 768,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/experience/",
+      "width": 768,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/contact/",
+      "width": 768,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/icu-ventilator-firmware/",
+      "width": 768,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/hardware-backed-cybersecurity/",
+      "width": 768,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/secure-boot-firmware-update/",
+      "width": 768,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/real-time-control-algorithms/",
+      "width": 768,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/safety-critical-verification/",
+      "width": 768,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/medical-device-compliance/",
+      "width": 768,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/",
+      "width": 390,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/about/",
+      "width": 390,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/experience/",
+      "width": 390,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/contact/",
+      "width": 390,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/icu-ventilator-firmware/",
+      "width": 390,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/hardware-backed-cybersecurity/",
+      "width": 390,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/secure-boot-firmware-update/",
+      "width": 390,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/real-time-control-algorithms/",
+      "width": 390,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/safety-critical-verification/",
+      "width": 390,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/medical-device-compliance/",
+      "width": 390,
+      "overflow": false,
+      "violations": []
+    }
+  ]
+}

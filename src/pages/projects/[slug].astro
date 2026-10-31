@@ -1,0 +1,25 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import {projects} from '../../data/projects';
+import {href} from '../../data/profile';
+import Diagram from '../../components/Diagram';
+import ControlLab from '../../components/ControlLab';
+import Icon from '../../components/Icon.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+export function getStaticPaths() { return projects.map(project=>({params:{slug:project.slug},props:{project}})); }
+const {project:p} = Astro.props;
+const related=projects.filter(other=>other.slug!==p.slug).slice(p.number==='01'?0:1,p.number==='01'?2:3);
+---
+<Layout title={p.title} description={p.summary}>
+  <section class="container case-heading"><a class="back-link" href={href('projects/')}>← All engineering projects</a><div class="case-heading-grid"><div><span class="eyebrow">CASE STUDY {p.number} / {p.category}</span><h1>{p.title}</h1><p>{p.summary}</p><div class="tags">{p.tags.map(t=><span>{t}</span>)}</div></div><aside class="case-meta"><span>CONTRIBUTION</span><strong>Embedded engineering</strong><span>CONTEXT</span><strong>Professional experience</strong><span>DISCLOSURE</span><strong>Sanitized, conceptual architecture</strong></aside></div></section>
+  <div class="container case-layout"><aside class="case-nav"><span class="eyebrow">IN THIS CASE STUDY</span><nav aria-label="Case study contents"><a href="#overview">Overview & context</a><a href="#responsibilities">My responsibilities</a><a href="#architecture">System architecture</a><a href="#approach">Engineering approach</a><a href="#verification">Verification & testing</a><a href="#outcomes">Contributions</a></nav></aside><div class="case-body">
+    <section id="overview"><span class="eyebrow">01 / CONTEXT</span><h2>The engineering challenge.</h2><p>{p.context}</p><h3>Problem to solve</h3><p>{p.challenge}</p></section>
+    <section id="responsibilities"><span class="eyebrow">02 / MY ROLE</span><h2>Responsibilities & technologies.</h2><ul class="check-list">{p.responsibilities.map(r=><li><Icon name="check" size={18}/><span>{r}</span></li>)}</ul><div class="tags">{p.tags.map(t=><span>{t}</span>)}</div></section>
+    <section id="architecture"><span class="eyebrow">03 / HIGH-LEVEL ARCHITECTURE</span><h2>{p.shortTitle}</h2><figure class="case-diagram"><Diagram scene={p.scene} id={`case-${p.number}`}/><figcaption>Independent conceptual illustration. No production configuration, clinical data, or proprietary interfaces are shown.</figcaption></figure>{p.number==='03'&&<div class="memory-layout"><h3>Illustrative memory regions</h3><div><span>Bootloader</span><span>Application image</span><span>Update / metadata region</span></div><p class="small muted">Logical regions only. No addresses, region sizes, staging guarantees, or production flash layout are represented.</p></div>}</section>
+    <section id="approach"><span class="eyebrow">04 / ENGINEERING DECISIONS</span><h2>Implementation approach.</h2><p class="small muted">High-level explanation of the engineering concerns; it is not a reproduction of proprietary implementation.</p><ol class="approach-list">{p.approach.map(a=><li>{a}</li>)}</ol><h3>Trade-offs to consider</h3><div class="tradeoffs">{p.tradeoffs.map(t=><article><h4>{t.title}</h4><p>{t.text}</p></article>)}</div></section>
+    {p.number==='04'&&<section id="simulation"><ControlLab client:visible/><noscript><p class="notice">Enable JavaScript to adjust the simulated response. The default plot and model explanation remain available.</p></noscript></section>}
+    <section id="verification"><span class="eyebrow">05 / VERIFICATION & TESTING</span><h2>Making behavior reviewable.</h2><p>The following describes relevant verification considerations without exposing internal verification reports or claiming measured results.</p><ul class="check-list">{p.verification.map(v=><li><Icon name="check" size={18}/><span>{v}</span></li>)}</ul></section>
+    <section id="outcomes"><span class="eyebrow">06 / OUTCOMES & CONTRIBUTIONS</span><h2>What I contributed.</h2>{p.outcomes.map(o=><p>{o}</p>)}<h3>Relevant competencies</h3><div class="tags">{p.competencies.map(c=><span>{c}</span>)}</div><p class="notice">No numerical performance improvement, test-coverage result, product regulatory approval, or certification achievement is claimed.</p></section>
+  </div></div>
+  <section class="section container"><div class="section-heading"><div><span class="eyebrow">CONTINUE EXPLORING</span><h2>Related engineering work.</h2></div></div><div class="projects-grid related-projects">{related.map(project=><ProjectCard project={project}/>)}</div></section>
+</Layout>

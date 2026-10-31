@@ -1,0 +1,24 @@
+---
+import { complianceAreas } from '../data/compliance';
+import { href } from '../data/profile';
+import Icon from './Icon.astro';
+const { eyebrow = '06 / MEDICAL DEVICE COMPLIANCE' } = Astro.props;
+---
+<section class="section compliance-section" id="compliance" aria-labelledby="compliance-title">
+  <div class="container">
+    <div class="section-heading">
+      <div><span class="eyebrow">{eyebrow}</span><h2 id="compliance-title">Medical Device Compliance<br/>& Process Engineering</h2></div>
+      <p>I create and maintain processes, procedures, and lifecycle documentation that support medical-device software, cybersecurity, and quality-system compliance.</p>
+    </div>
+    <div class="expertise-grid compliance-grid">
+      {complianceAreas.map(area => <article class="expertise-card compliance-card">
+        <div class="compliance-card-heading"><span class="icon-tile"><Icon name="check"/></span><span class="eyebrow">{area.standard}</span></div>
+        <h3>{area.title}</h3><p>{area.description}</p>
+        <h4>Process & procedure focus</h4><ul>{area.processes.map(process => <li>{process}</li>)}</ul>
+        <a class="text-link" href={area.source} target="_blank" rel="noopener noreferrer">Standard scope <Icon name="external" size={13}/></a>
+      </article>)}
+    </div>
+    <div class="compliance-flow" aria-label="Process engineering workflow"><span>Define the process</span><span aria-hidden="true">→</span><span>Document the procedure</span><span aria-hidden="true">→</span><span>Apply & review</span><span aria-hidden="true">→</span><span>Maintain evidence</span></div>
+    <a class="text-link" href={href('projects/medical-device-compliance/')}>Explore compliance & process engineering <Icon name="arrow" size={17}/></a>
+  </div>
+</section>

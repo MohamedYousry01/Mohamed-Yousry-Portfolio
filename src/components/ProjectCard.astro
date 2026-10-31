@@ -1,0 +1,18 @@
+---
+import type { Project } from '../data/projects';
+import { href } from '../data/profile';
+import Icon from './Icon.astro';
+const {project, featured = false} = Astro.props as {project: Project; featured?: boolean};
+const illustrations = [
+  '<path d="M30 137h40l18-30 24 63 25-58 20 25h39l18-14 18 14h38"/><path d="M35 70h230M35 205h230" opacity=".2"/><rect x="106" y="42" width="90" height="43" rx="6"/><path d="M120 63h60"/>',
+  '<path d="M150 36 80 64v65c0 48 70 81 70 81s70-33 70-81V64z"/><path d="m122 121 20 20 40-46"/><circle cx="50" cy="120" r="8"/><circle cx="250" cy="120" r="8"/><path d="M58 120h22m140 0h22"/>',
+  '<rect x="40" y="83" width="65" height="67" rx="8"/><rect x="192" y="83" width="65" height="67" rx="8"/><path d="M105 116h87m-20-12 20 12-20 12"/><path d="M63 96h20v10H63zm-8 26h35m-35 12h28"/><path d="m208 116 11 11 23-25"/>',
+  '<path d="M35 195V45m0 150h235" opacity=".45"/><path d="M35 135h235" stroke-dasharray="6 5"/><path d="M35 195c30 0 32-110 63-93s29 53 57 38 50-5 115-5"/><circle cx="98" cy="102" r="5"/>',
+  '<rect x="82" y="42" width="135" height="165" rx="8"/><path d="m102 87 7 7 14-17m-21 47 7 7 14-17m-21 47 7 7 14-17m17-58h58m-58 37h58m-58 37h58"/><path d="M125 42v-9h49v9"/>',
+  '<rect x="40" y="73" width="64" height="96" rx="7"/><rect x="193" y="73" width="64" height="96" rx="7"/><path d="M54 94h36m-36 17h28m-28 17h36m-36 17h25m25-23h89m-15-12 15 12-15 12m28-27 9 9 17-21m-26 44h32"/>',
+];
+---
+<a class:list={['project-card', featured&&'project-featured']} href={href(`projects/${project.slug}/`)}>
+  <div class={`project-visual visual-${project.number}`}><span class="project-index">ENGINEERING NOTE / {project.number}</span><svg viewBox="0 0 300 245" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={illustrations[Number(project.number)-1]}/><span class="visual-caption">{['REAL-TIME · SAFETY-CRITICAL','AUTHENTICATION · INTEGRITY','VALIDATION · TRUST','FEEDBACK · REGULATION','TRACEABILITY · EVIDENCE','PROCESSES · PROCEDURES · COMPLIANCE'][Number(project.number)-1]}</span></div>
+  <div class="project-copy"><span class="eyebrow">{project.category}</span><h3>{project.title}</h3><p>{project.summary}</p><div class="tags">{project.tags.map(tag=><span>{tag}</span>)}</div><span class="project-link">Explore case study <Icon name="arrow" size={18}/></span></div>
+</a>

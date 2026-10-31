@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><title>Local portfolio accessibility audit</title><style>body{font:14px system-ui;margin:24px;color:#182a41}button{padding:14px}pre{white-space:pre-wrap}iframe{display:block;border:1px solid #999;height:1000px;margin-top:20px}</style></head><body><h1>Local browser audit</h1><p>Runs axe-core against the built website at desktop, tablet, and mobile widths. This page is a local test artifact; rebuild before publishing.</p><button id="run">Run all accessibility checks</button><pre id="results" aria-live="polite">Ready.</pre><iframe title="Portfolio under test" id="frame"></iframe><script>
+const paths=['/','/projects/','/about/','/experience/','/contact/','/projects/icu-ventilator-firmware/','/projects/hardware-backed-cybersecurity/','/projects/secure-boot-firmware-update/','/projects/real-time-control-algorithms/','/projects/safety-critical-verification/','/projects/medical-device-compliance/'];
+const frame=document.querySelector('#frame'),out=document.querySelector('#results'),button=document.querySelector('#run');
+button.onclick=async()=>{
+ button.disabled=true;const results=[];
+ try {
+  for(const width of [1440,768,390]) for(const path of paths){
+   frame.style.width=width+'px';
+   await new Promise((resolve,reject)=>{frame.onload=resolve;frame.onerror=reject;frame.src=path;});
+   const doc=frame.contentDocument,win=frame.contentWindow;
+   await doc.fonts.ready;
+   await new Promise(resolve=>win.requestAnimationFrame(()=>win.requestAnimationFrame(resolve)));
+   const script=doc.createElement('script');script.src='/__audit-axe.js';
+   await new Promise((resolve,reject)=>{script.onload=resolve;script.onerror=reject;doc.head.append(script);});
+   const audit=await win.axe.run(doc,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}});
+   results.push({path,width,overflow:doc.documentElement.scrollWidth>win.innerWidth,violations:audit.violations.map(v=>({id:v.id,impact:v.impact,help:v.help,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}))});
+   out.textContent=JSON.stringify({status:'running',completed:results.length,total:paths.length*3,results},null,2);
+  }
+  out.textContent=JSON.stringify({status:'complete',checks:results.length,failed:results.filter(r=>r.overflow||r.violations.length).length,results},null,2);
+ }catch(error){out.textContent=JSON.stringify({status:'error',error:String(error),results},null,2)}
+ button.disabled=false;
+};
+</script></body></html>

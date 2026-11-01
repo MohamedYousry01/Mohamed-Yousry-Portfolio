@@ -1,0 +1,25 @@
+{
+  "status": "complete",
+  "checks": 3,
+  "failed": 0,
+  "results": [
+    {
+      "path": "/projects/real-time-control-algorithms/",
+      "width": 1440,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/real-time-control-algorithms/",
+      "width": 768,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "/projects/real-time-control-algorithms/",
+      "width": 390,
+      "overflow": false,
+      "violations": []
+    }
+  ]
+}

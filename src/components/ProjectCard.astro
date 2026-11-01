@@ -3,6 +3,8 @@ import type { Project } from '../data/projects';
 import { href } from '../data/profile';
 import Icon from './Icon.astro';
 const {project, featured = false} = Astro.props as {project: Project; featured?: boolean};
+const originalIllustrations: Record<string, number> = { 'icu-ventilator-firmware': 0, 'hardware-backed-cybersecurity': 1, 'secure-boot-firmware-update': 2, 'real-time-control-algorithms': 3, 'safety-critical-verification': 4, 'medical-device-compliance': 5 };
+const illustrationIndex = originalIllustrations[project.slug];
 const illustrations = [
   '<path d="M30 137h40l18-30 24 63 25-58 20 25h39l18-14 18 14h38"/><path d="M35 70h230M35 205h230" opacity=".2"/><rect x="106" y="42" width="90" height="43" rx="6"/><path d="M120 63h60"/>',
   '<path d="M150 36 80 64v65c0 48 70 81 70 81s70-33 70-81V64z"/><path d="m122 121 20 20 40-46"/><circle cx="50" cy="120" r="8"/><circle cx="250" cy="120" r="8"/><path d="M58 120h22m140 0h22"/>',
@@ -13,6 +15,6 @@ const illustrations = [
 ];
 ---
 <a class:list={['project-card', featured&&'project-featured']} href={href(`projects/${project.slug}/`)}>
-  <div class={`project-visual visual-${project.number}`}><span class="project-index">ENGINEERING NOTE / {project.number}</span><svg viewBox="0 0 300 245" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={illustrations[Number(project.number)-1]}/><span class="visual-caption">{['REAL-TIME · SAFETY-CRITICAL','AUTHENTICATION · INTEGRITY','VALIDATION · TRUST','FEEDBACK · REGULATION','TRACEABILITY · EVIDENCE','PROCESSES · PROCEDURES · COMPLIANCE'][Number(project.number)-1]}</span></div>
+  <div class={`project-visual visual-${project.number}`}><span class="project-index">ENGINEERING NOTE / {project.number}</span><svg viewBox="0 0 300 245" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={illustrations[illustrationIndex]}/><span class="visual-caption">{['REAL-TIME · SAFETY-CRITICAL','AUTHENTICATION · INTEGRITY','VALIDATION · TRUST','FEEDBACK · REGULATION','TRACEABILITY · EVIDENCE','PROCESSES · PROCEDURES · COMPLIANCE'][illustrationIndex]}</span></div>
   <div class="project-copy"><span class="eyebrow">{project.category}</span><h3>{project.title}</h3><p>{project.summary}</p><div class="tags">{project.tags.map(tag=><span>{tag}</span>)}</div><span class="project-link">Explore case study <Icon name="arrow" size={18}/></span></div>
 </a>

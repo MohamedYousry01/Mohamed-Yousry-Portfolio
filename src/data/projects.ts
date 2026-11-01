@@ -1,12 +1,13 @@
+import { engineeringOrder, type EngineeringArea } from './engineering';
 export interface Project {
-  slug: string; number: string; category: string; title: string; shortTitle: string;
+  slug: string; number: string; category: string; area: EngineeringArea; title: string; shortTitle: string;
   summary: string; tags: string[]; scene: number; context: string; challenge: string;
   responsibilities: string[]; approach: string[]; tradeoffs: { title: string; text: string }[];
   verification: string[]; outcomes: string[]; competencies: string[];
 }
-export const projects: Project[] = [
+const projectContent: Project[] = [
   {
-    slug: 'icu-ventilator-firmware', number: '01', category: 'MEDICAL DEVICE ENGINEERING',
+    slug: 'icu-ventilator-firmware', area: 'firmware', number: '01', category: 'MEDICAL DEVICE ENGINEERING',
     title: 'ICU Medical Ventilator Embedded Firmware', shortTitle: 'Ventilator control architecture',
     summary: 'Real-time embedded software for pressure regulation, hardware communication, and patient safety alarms in a medical ventilator.',
     tags: ['Embedded C', 'NXP Power Architecture', 'CAN', 'IEC 62304'], scene: 1,
@@ -20,7 +21,7 @@ export const projects: Project[] = [
     competencies: ['Medical device firmware', 'Real-time architecture', 'Peripheral integration', 'Safety-focused verification'],
   },
   {
-    slug: 'hardware-backed-cybersecurity', number: '02', category: 'EMBEDDED CYBERSECURITY',
+    slug: 'hardware-backed-cybersecurity', area: 'security', number: '02', category: 'EMBEDDED CYBERSECURITY',
     title: 'Hardware-Backed Embedded Cybersecurity', shortTitle: 'Cryptographic services and key protection',
     summary: 'Cryptographic services, key management, and firmware authentication built around hardware-backed security boundaries.',
     tags: ['HSM / SHE', 'AES-CMAC', 'ECC P-256', 'wolfCrypt'], scene: 2,
@@ -34,7 +35,7 @@ export const projects: Project[] = [
     competencies: ['Embedded cryptography', 'Trust boundaries', 'Key lifecycle', 'Authentication'],
   },
   {
-    slug: 'secure-boot-firmware-update', number: '03', category: 'FIRMWARE INTEGRITY',
+    slug: 'secure-boot-firmware-update', area: 'secure-boot', number: '03', category: 'FIRMWARE INTEGRITY',
     title: 'Secure Bootloader & Firmware Update', shortTitle: 'Authenticated boot and image rejection',
     summary: 'Bootloader architecture and firmware update management with authenticated images, application validation, and explicit failure handling.',
     tags: ['Secure boot', 'Flash programming', 'HSM', 'Validation'], scene: 3,
@@ -48,7 +49,7 @@ export const projects: Project[] = [
     competencies: ['Boot architecture', 'Firmware integrity', 'Flash management', 'Failure handling'],
   },
   {
-    slug: 'real-time-control-algorithms', number: '04', category: 'CONTROL SYSTEMS',
+    slug: 'real-time-control-algorithms', area: 'firmware', number: '04', category: 'CONTROL SYSTEMS',
     title: 'Real-Time Control Algorithms', shortTitle: 'Pressure control feedback loop',
     summary: 'Pressure, flow, and brushless DC motor control, supported by PID, PI, ADRC, cascade control, signal filtering, and real-time execution.',
     tags: ['PID / PI', 'ADRC', 'BLDC motor control', 'Signal filtering'], scene: 1,
@@ -62,7 +63,7 @@ export const projects: Project[] = [
     competencies: ['Feedback control', 'BLDC motor control', 'Embedded implementation', 'Disturbance handling', 'Signal processing'],
   },
   {
-    slug: 'safety-critical-verification', number: '05', category: 'SOFTWARE ASSURANCE',
+    slug: 'safety-critical-verification', area: 'verification', number: '05', category: 'SOFTWARE ASSURANCE',
     title: 'Safety-Critical Embedded Software Verification', shortTitle: 'Requirements and verification flow',
     summary: 'Requirements traceability, unit and integration testing, coding-rule reviews, and lifecycle evidence for safety-critical firmware.',
     tags: ['VectorCAST', 'Unity', 'MISRA C', 'IEC 62304'], scene: 4,
@@ -76,7 +77,7 @@ export const projects: Project[] = [
     competencies: ['Verification design', 'Coverage interpretation', 'Traceability', 'Software lifecycle'],
   },
   {
-    slug: 'medical-device-compliance', number: '06', category: 'MEDICAL DEVICE COMPLIANCE',
+    slug: 'medical-device-compliance', area: 'quality', number: '06', category: 'MEDICAL DEVICE COMPLIANCE',
     title: 'Medical Device Compliance & Process Engineering', shortTitle: 'Process and procedure development',
     summary: 'Creating processes, procedures, and controlled documentation that support IEC 62304, IEC 81001-5-1, and ISO 13485 compliance.',
     tags: ['IEC 62304', 'IEC 81001-5-1', 'ISO 13485', 'SOP development'], scene: 5,
@@ -91,3 +92,7 @@ export const projects: Project[] = [
   },
 ];
 
+
+export const projects: Project[] = projectContent
+  .sort((a, b) => engineeringOrder[a.area] - engineeringOrder[b.area])
+  .map((project, index) => ({ ...project, number: String(index + 1).padStart(2, '0') }));

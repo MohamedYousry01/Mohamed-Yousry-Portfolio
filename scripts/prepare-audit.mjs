@@ -4,4 +4,5 @@ const axe = await readFile(new URL('../node_modules/axe-core/axe.min.js', import
 await writeFile('dist/__audit-axe.js', axe);
 const html = await readFile('tests/browser-audit.html');
 await writeFile('dist/__audit.html', html);
+await writeFile('dist/__architecture-audit.html', await readFile('tests/architecture-audit.html'));
 console.log('Open /__audit.html on the local production preview. Rebuild before deployment to remove audit-only assets.');

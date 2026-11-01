@@ -1,0 +1,147 @@
+{
+  "status": "complete",
+  "checks": 35,
+  "failed": 0,
+  "results": [
+    {
+      "name": "Tab order",
+      "passed": true
+    },
+    {
+      "name": "Expertise order",
+      "passed": true
+    },
+    {
+      "name": "Skills order",
+      "passed": true
+    },
+    {
+      "name": "Project group order",
+      "passed": true
+    },
+    {
+      "name": "Timeline responsibility order",
+      "passed": true
+    },
+    {
+      "name": "Firmware step 1",
+      "passed": true
+    },
+    {
+      "name": "Firmware step 2",
+      "passed": true
+    },
+    {
+      "name": "Firmware step 3",
+      "passed": true
+    },
+    {
+      "name": "Firmware step 4",
+      "passed": true
+    },
+    {
+      "name": "Security step 1",
+      "passed": true
+    },
+    {
+      "name": "Security step 2",
+      "passed": true
+    },
+    {
+      "name": "Security step 3",
+      "passed": true
+    },
+    {
+      "name": "Security step 4",
+      "passed": true
+    },
+    {
+      "name": "Secure boot step 1",
+      "passed": true
+    },
+    {
+      "name": "Secure boot step 2",
+      "passed": true
+    },
+    {
+      "name": "Secure boot step 3",
+      "passed": true
+    },
+    {
+      "name": "Secure boot step 4",
+      "passed": true
+    },
+    {
+      "name": "Quality management step 1",
+      "passed": true
+    },
+    {
+      "name": "Quality management step 2",
+      "passed": true
+    },
+    {
+      "name": "Quality management step 3",
+      "passed": true
+    },
+    {
+      "name": "Quality management step 4",
+      "passed": true
+    },
+    {
+      "name": "Verification step 1",
+      "passed": true
+    },
+    {
+      "name": "Verification step 2",
+      "passed": true
+    },
+    {
+      "name": "Verification step 3",
+      "passed": true
+    },
+    {
+      "name": "Verification step 4",
+      "passed": true
+    },
+    {
+      "name": "Altered image blocks application execution",
+      "passed": true
+    },
+    {
+      "name": "Failed verification remains open",
+      "passed": true
+    },
+    {
+      "name": "Arrow-key tab navigation",
+      "passed": true
+    },
+    {
+      "name": "Playback advances the explanatory sequence",
+      "passed": true
+    },
+    {
+      "name": "Pause stops automatic progression",
+      "passed": true
+    },
+    {
+      "name": "Pause stops particle animation",
+      "passed": true
+    },
+    {
+      "name": "Offscreen progression pauses",
+      "passed": true
+    },
+    {
+      "name": "Reduced-motion preference disables automatic playback",
+      "passed": true
+    },
+    {
+      "name": "Reduced-motion sequence remains static",
+      "passed": true
+    },
+    {
+      "name": "Reduced-motion mode retains manual step inspection",
+      "passed": true
+    }
+  ]
+}

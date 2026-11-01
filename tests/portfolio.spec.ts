@@ -27,17 +27,18 @@ test('walkthrough switches all scenes and pauses diagram motion',async ({page})=
   await explorer.scrollIntoViewIfNeeded();
   const buttons=explorer.locator('.scene-selector button');
   await expect(buttons).toHaveCount(5);
+  await expect(buttons.locator('span:last-child')).toHaveText(['Firmware','Security','Secure boot','Quality management','Verification']);
   for(let i=0;i<5;i++) {
     await buttons.nth(i).click();
-    await expect(buttons.nth(i)).toHaveAttribute('aria-pressed','true');
+    await expect(buttons.nth(i)).toHaveAttribute('aria-selected','true');
     await expect(explorer.locator('.counter')).toHaveText(`${String(i+1).padStart(2,'0')} / 05`);
     await expect(explorer.locator('svg[role="img"]')).toHaveCount(1);
   }
   await explorer.getByRole('button',{name:'Next scene',exact:true}).click();
-  await expect(buttons.nth(0)).toHaveAttribute('aria-pressed','true');
+  await expect(buttons.nth(0)).toHaveAttribute('aria-selected','true');
   await explorer.getByRole('button',{name:'Pause diagram motion'}).click();
   await expect(explorer).toHaveClass(/motion-paused/);
-  const state=await explorer.locator('.signal').first().evaluate(el=>getComputedStyle(el).animationPlayState);
+  const state=await explorer.locator('.flow-particle').first().evaluate(el=>getComputedStyle(el).animationPlayState);
   expect(state).toBe('paused');
 });
 
@@ -46,13 +47,13 @@ test('control demonstration responds to input and exposes generated data',async 
   const lab=page.locator('.control-lab');
   await lab.scrollIntoViewIfNeeded();
   const before=await lab.locator('.lab-result strong').innerText();
-  await lab.getByLabel('Damping', {exact:false}).fill('0.9');
+  await lab.getByRole('slider',{name:/Kc/}).fill('4');
   await expect(lab.locator('.lab-result strong')).not.toHaveText(before);
-  await lab.getByLabel('Disturbance at 5 s').uncheck();
-  await expect(lab.locator('.control-plot').getByText('Disturbance',{exact:true})).toHaveCount(0);
+  await lab.getByLabel('Load disturbance at 6 s').uncheck();
+  await expect(lab.locator('.control-plot').getByText('Load −0.30',{exact:true})).toHaveCount(0);
   await lab.getByText('Inspect the model and accessible data').click();
   await expect(lab.getByRole('table')).toBeVisible();
-  await expect(lab.locator('tbody tr')).toHaveCount(11);
+  await expect(lab.locator('tbody tr')).toHaveCount(13);
 });
 
 test('keyboard skip link, native mobile menu, routing and reduced motion',async ({page})=>{

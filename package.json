@@ -13,7 +13,8 @@
     "preview": "astro preview --host 127.0.0.1",
     "test:links": "node scripts/check-links.mjs",
     "test:browser": "playwright test",
-    "test:analytics": "node --test-isolation=none --test tests/cloudflare-analytics.test.mjs"
+    "test:analytics": "node --test-isolation=none --test tests/cloudflare-analytics.test.mjs",
+    "test:control": "node --experimental-strip-types --test-isolation=none --test tests/control-simulation.test.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^7.1.2",

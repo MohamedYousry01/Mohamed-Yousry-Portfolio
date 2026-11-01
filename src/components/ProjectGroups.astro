@@ -1,0 +1,14 @@
+---
+import { engineeringAreas } from '../data/engineering';
+import { projects } from '../data/projects';
+import ProjectCard from './ProjectCard.astro';
+---
+<div class="project-groups">
+  {engineeringAreas.map((area, index) => {
+    const group = projects.filter(project => project.area === area.id);
+    return <div class="project-area" role="group" aria-labelledby={`project-group-${area.id}`}>
+      <p class="project-area-heading" id={`project-group-${area.id}`}><span>0{index+1}</span>{area.label}</p>
+      <div class="projects-grid">{group.map(project => <ProjectCard project={project} featured={group.length===1}/>)}</div>
+    </div>;
+  })}
+</div>

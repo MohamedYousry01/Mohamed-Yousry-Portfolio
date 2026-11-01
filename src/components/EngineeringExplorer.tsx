@@ -1,31 +1,68 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { ArrowLeft, ArrowRight, Pause, Play, Cpu, ShieldCheck, Activity, LockKeyhole, ClipboardCheck } from 'lucide-react';
-import Diagram, { sceneNames } from './Diagram';
-const scenes = [
-  { label: 'Firmware', icon: Cpu, title: 'Microcontroller firmware and interfaces', text: 'Real-time Embedded C firmware connects processing, memory, and peripheral interfaces on NXP Power Architecture and STM32 platforms.', tags: ['Embedded C', 'NXP Power Architecture', 'STM32', 'Real-time firmware'] },
-  { label: 'Control', icon: Activity, title: 'Pressure feedback and actuator control', text: 'A conceptual ventilator loop links pressure sensing, control decisions, and actuator control for brushless DC (BLDC) motors, blowers, and valves. The waveform is an illustration, not clinical performance data.', tags: ['Pressure regulation', 'PID & ADRC', 'BLDC & valve control', 'Signal filtering', 'Alarm monitoring'] },
-  { label: 'Security', icon: ShieldCheck, title: 'Hardware-backed cryptographic services', text: 'Cryptographic services create an explicit boundary between application requests, hardware-backed operations, and protected keys. Algorithm support varies by platform.', tags: ['Authentication', 'Integrity', 'HSM / SHE', 'Key management'] },
-  { label: 'Secure boot', icon: LockKeyhole, title: 'Firmware authentication during boot', text: 'An image follows the validated path only after authentication. Failed validation leads to rejection, with no normal application handoff.', tags: ['Bootloader', 'Firmware authentication', 'Failure handling', 'Flash updates'] },
-  { label: 'Verification', icon: ClipboardCheck, title: 'Requirements-to-tests traceability', text: 'Requirements, design, implementation, and tests form a reviewable chain. Coverage helps inspect test completeness without replacing requirement-based verification.', tags: ['VectorCAST', 'Unity', 'MISRA C', 'IEC 62304'] },
-];
+import { ArrowLeft, ArrowRight, Pause, Play, RotateCcw, Cpu, ShieldCheck, LockKeyhole, ClipboardCheck, FileCheck2 } from 'lucide-react';
+import { engineeringAreas } from '../data/engineering';
+import { architectureScenes } from '../data/architecture-scenes';
+import AnimatedArchitecture from './AnimatedArchitecture';
+
+const icons = [Cpu, ShieldCheck, LockKeyhole, FileCheck2, ClipboardCheck];
 export default function EngineeringExplorer() {
-  const [active,setActive]=useState(0);
-  const [paused,setPaused]=useState(false);
-  const reduced=useReducedMotion();
-  const current=scenes[active];
-  const step=(delta:number)=>setActive((active+delta+scenes.length)%scenes.length);
-  return <div className={`explorer ${paused||reduced?'motion-paused':''}`}>
-    <div className="scene-selector" aria-label="Engineering scenes">
-      {scenes.map((scene,i)=>{const Icon=scene.icon;return <button key={scene.label} type="button" aria-pressed={i===active} aria-controls="scene-content" onClick={()=>setActive(i)}><span className="scene-num">0{i+1}</span><Icon size={19} aria-hidden="true"/><span>{scene.label}</span></button>})}
+  const [active, setActive] = useState(0);
+  const [phase, setPhase] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [fault, setFault] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [documentVisible, setDocumentVisible] = useState(true);
+  const root = useRef<HTMLDivElement>(null);
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  const prefersReducedMotion = useReducedMotion();
+  const [mounted, setMounted] = useState(false);
+  const reduced = mounted && prefersReducedMotion;
+  const scene = architectureScenes[active];
+  const currentStep = scene.steps[phase];
+  const running = !paused && !reduced && visible && documentVisible;
+  useEffect(() => {
+    setMounted(true);
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: .15 });
+    if (root.current) observer.observe(root.current);
+    const onVisibility = () => setDocumentVisible(!document.hidden);
+    onVisibility();
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => { observer.disconnect(); document.removeEventListener('visibilitychange', onVisibility); };
+  }, []);
+  useEffect(() => {
+    if (!running) return;
+    const timer = window.setInterval(() => setPhase(previous => (previous + 1) % 4), 3200);
+    return () => window.clearInterval(timer);
+  }, [running, active]);
+  function chooseScene(index: number, focus = false) {
+    const next = (index + engineeringAreas.length) % engineeringAreas.length;
+    setActive(next); setPhase(0); setFault(false);
+    if (focus) tabs.current[next]?.focus();
+  }
+  function chooseStep(index: number) { setPhase((index + 4) % 4); setPaused(true); }
+  const rejected = fault && phase >= 2 && scene.id === 'secure-boot';
+  const failed = fault && phase >= 2 && scene.id === 'verification';
+  const status = rejected ? 'Altered image rejected · no handoff' : failed ? 'Demonstration failure · review required' : currentStep.status;
+  return <div ref={root} className={`explorer explorer-v2 ${running ? 'demo-playing' : 'motion-paused'}`}>
+    <div className="scene-selector" role="tablist" aria-label="Engineering areas">
+      {engineeringAreas.map((area, i) => { const Icon = icons[i]; return <button ref={element => { tabs.current[i] = element; }} key={area.id} id={`system-tab-${area.id}`} role="tab" type="button" aria-selected={i === active} aria-controls="system-scene-panel" tabIndex={i === active ? 0 : -1} onClick={() => chooseScene(i)} onKeyDown={event => {
+        if (['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) {
+          event.preventDefault(); chooseScene(event.key === 'Home' ? 0 : event.key === 'End' ? 4 : i + (event.key === 'ArrowRight' ? 1 : -1), true);
+        }
+      }}><span className="scene-num">0{i+1}</span><Icon size={20} aria-hidden="true"/><span>{area.label}</span></button>; })}
     </div>
-    <div className="explorer-body">
-      <div className="scene-copy"><span className="eyebrow">SYSTEM / 0{active+1}</span><h3>{current.title}</h3><p>{current.text}</p><div className="tags">{current.tags.map(tag=><span key={tag}>{tag}</span>)}</div></div>
-      <div className="scene-art" id="scene-content" aria-live="polite" aria-atomic="true">
-        <AnimatePresence mode="wait" initial={false}><motion.div key={active} initial={{opacity:0,y:reduced?0:10}} animate={{opacity:1,y:0}} exit={{opacity:0}} transition={{duration:reduced?0:.2}}><Diagram scene={active} id={`explorer-${active}`}/></motion.div></AnimatePresence>
+    <section className="explorer-body" id="system-scene-panel" role="tabpanel" aria-labelledby={`system-tab-${scene.id}`}>
+      <div className="scene-copy"><span className="eyebrow">{engineeringAreas[active].label.toUpperCase()} / 0{active+1}</span><h3>{scene.title}</h3><p>{scene.description}</p><div className="tags">{scene.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
+        {(scene.id === 'secure-boot' || scene.id === 'verification') && <fieldset className="scenario-controls"><legend>Illustrative scenario</legend><button type="button" aria-pressed={!fault} onClick={() => { setFault(false); setPhase(0); }}>{scene.id === 'secure-boot' ? 'Valid image' : 'Passing tests'}</button><button type="button" aria-pressed={fault} onClick={() => { setFault(true); setPhase(0); }}>{scene.id === 'secure-boot' ? 'Altered image' : 'Failing test'}</button></fieldset>}
+        <div className={`phase-explanation ${rejected || failed ? 'explanation-danger' : ''}`} aria-live={running ? 'off' : 'polite'}><span className="eyebrow">STEP {phase+1} / 4</span><h4>{currentStep.label}</h4><p>{currentStep.description}</p>{(rejected || failed) && <p className="scenario-result">{rejected ? 'This altered example cannot reach application execution.' : 'The failed example stays visible as an open verification issue.'}</p>}</div>
       </div>
-    </div>
-    <div className="explorer-footer"><span><span className="status-dot"/>Conceptual engineering illustration</span><div className="scene-controls"><button onClick={()=>setPaused(!paused)} aria-pressed={paused} aria-label={paused?'Enable diagram motion':'Pause diagram motion'} disabled={!!reduced}>{paused||reduced?<Play size={15}/>:<Pause size={15}/>}<span>{reduced?'Reduced motion':paused?'Motion paused':'Pause motion'}</span></button><button onClick={()=>step(-1)} aria-label="Previous scene"><ArrowLeft size={18}/></button><span className="counter" aria-label={`Scene ${active+1} of 5`}>{String(active+1).padStart(2,'0')} / 05</span><button onClick={()=>step(1)} aria-label="Next scene"><ArrowRight size={18}/></button></div></div>
-    <span className="sr-only">Current scene: {sceneNames[active]}</span>
+      <div className="scene-art"><div className="architecture-status"><span className={rejected || failed ? 'status-danger' : ''}><span className="status-dot"/>{status}</span><span className="architecture-demo-label">ILLUSTRATIVE</span></div>
+        <AnimatePresence mode="wait" initial={false}><motion.div key={scene.id} initial={{ opacity: 0, y: reduced ? 0 : 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: reduced ? 0 : .22 }}><AnimatedArchitecture area={scene.id} phase={phase} fault={fault}/></motion.div></AnimatePresence>
+        <div className="architecture-steps" aria-label={`${engineeringAreas[active].label} sequence steps`}>{scene.steps.map((step, i) => <button key={step.label} type="button" aria-current={i === phase ? 'step' : undefined} onClick={() => chooseStep(i)}><span className="step-index">{i+1}</span><span>{step.label}</span>{i === phase && <span className="step-timer" key={`${active}-${phase}-${paused}`} aria-hidden="true"/>}</button>)}</div>
+      </div>
+    </section>
+    <div className="explorer-footer"><span><span className="status-dot"/>Conceptual sequences · no production data</span><div className="scene-controls"><button type="button" onClick={() => setPaused(!paused)} aria-pressed={paused} aria-label={paused ? 'Enable diagram motion' : 'Pause diagram motion'} disabled={!!reduced}>{paused || reduced ? <Play size={15}/> : <Pause size={15}/>}<span>{reduced ? 'Reduced motion' : paused ? 'Play animation' : 'Pause animation'}</span></button><button type="button" onClick={() => { setPhase(0); setPaused(false); }} aria-label="Replay current scene"><RotateCcw size={16}/></button><button type="button" onClick={() => chooseScene(active-1)} aria-label="Previous scene"><ArrowLeft size={18}/></button><span className="counter" aria-label={`Scene ${active+1} of 5`}>{String(active+1).padStart(2,'0')} / 05</span><button type="button" onClick={() => chooseScene(active+1)} aria-label="Next scene"><ArrowRight size={18}/></button></div></div>
+    {reduced && <p className="reduced-motion-note">Automatic motion is disabled. Select any of the four steps to inspect its diagram and explanation.</p>}
   </div>;
 }

@@ -86,3 +86,29 @@ Renewed standards-correction browser audit: all 33 page / viewport combinations 
 - Browser checks confirmed the photo loads, direct headings fit desktop/mobile, and no Cloudflare beacon is loaded from localhost.
 - Renewed axe-core / overflow audit: all 33 page / viewport combinations passed with no detected violations or horizontal overflow.
 - Live traffic arrival in the Cloudflare dashboard remains unverified until the owner manually pushes and deploys these changes.
+
+## Architecture animations and shared category order — 1 November 2026
+
+- Added Quality management to System architectures. Shared category order is Firmware, Security, Secure boot, Quality management, Verification across tabs, expertise, skill groups, project groups, and current-role responsibilities. Control remains within Firmware, including BLDC motors, blowers, and valves.
+- Replaced the five explorer scenes with distinct four-step visual explanations: sensor/control/actuator flow, protected-key operations, authenticated boot, procedure review and controlled release, and requirement-to-verification evidence.
+- Added manual step selection, playback and replay, keyboard tab navigation, an altered-image rejection example, and a failing-test example. Automatic progression pauses offscreen and when the document is hidden. Reduced-motion preferences disable automatic playback while retaining manual inspection.
+- Prevented reduced-motion preferences from changing the initial server-rendered markup during hydration.
+- All 35 browser interaction checks passed: shared ordering, all twenty manual diagram stages, failure paths, keyboard navigation, playback, pause, offscreen pause, and simulated reduced-motion preference. The reduced-motion test overrides `matchMedia` in a local iframe; it does not change the operating-system preference.
+- Desktop and mobile visual review confirmed the diagrams and controls fit. Paused procedure drafting displays every SOP line fully, and its active document keeps a visible blue outline.
+- Astro/TypeScript checks passed with zero errors, warnings, or hints across 34 files. All four analytics loader tests passed.
+- Production build and all 288 internal link, asset, and anchor checks passed. Renewed axe-core and overflow audit passed all 33 page/viewport combinations with no detected violations or horizontal overflow.
+- Work remains in the local source folder for owner review. The D: GitHub repository was not modified; no commit, push, or deployment was performed.
+
+## PID controller and IIR filter laboratory — 1 November 2026
+
+- Replaced the damping/frequency response illustration with a discrete closed-loop PID model. Added Kc, Ti, Td, and IIR measurement-filter time constant controls, noise/load toggles, and reset.
+- Upper plot compares reference, raw sensor measurement, and filtered feedback. Lower plot shows the simulated actuator command. Charts can scroll within their own region on narrow screens; the page does not overflow.
+- Documented the normalized two-lag plant, 10 ms sampling, backward-Euler IIR recurrence, derivative on measurement, conditional integration, 0–3 output limits, and metric definitions. Zero Ti disables integration; zero Td disables differentiation; zero filter time constant bypasses the IIR filter.
+- Five numerical tests passed, covering filter step response and noise attenuation, zero gain, P-only offset versus integral correction, load rejection, no derivative setpoint kick, reproducibility, and finite/bounded results at 36 combinations of boundary settings.
+- Browser interaction confirmed all four parameters change the plotted response, filter bypass makes raw and filtered traces identical, optional inputs toggle, reset restores defaults, and the accessible table exposes 13 sample rows. Browser log contained no captured warnings or errors.
+- Updated page passed three axe-core/overflow audits at 1440, 768, and 390 px. TypeScript passed across 36 files with zero errors, warnings, or hints. Production build and 288 link/asset/anchor checks passed.
+- Local preview only; D: repository remains clean and unchanged. No commit, push, or deployment.
+
+Expertise-card consistency update: removed the Quality management full-width feature override. It now uses the same card width, background, padding, icon placement, and tag divider as its siblings, while retaining its compliance link and category order. Browser inspection confirmed identical widths and automatic grid placement across the five cards. Production build and all 288 internal-link checks passed. Local changes only.
+
+Timeline ordering update: shared Home/Experience timeline now sorts by start year, newest first: 2022–Present, 2021, 2017–2022, 2017. Equal 2017 start years retain their existing relative order. Dates remain year-only. Both built pages checked; build and 288 link checks passed. Local only.

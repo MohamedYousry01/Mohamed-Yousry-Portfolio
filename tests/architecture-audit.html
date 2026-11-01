@@ -1,0 +1,62 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Local architecture interaction audit</title><style>body{font:14px system-ui;margin:24px;color:#182a41}button{padding:12px}pre{white-space:pre-wrap}iframe{display:block;width:1280px;height:1000px;border:1px solid #aaa;margin-top:20px}</style></head><body><h1>Architecture interaction audit</h1><p>Local checks for ordered categories, twenty manual animation steps, failure paths, keyboard navigation, playback, and pause behavior.</p><button id="run">Run interaction checks</button><pre id="results" aria-live="polite">Ready.</pre><iframe id="frame" title="Portfolio under test"></iframe><script>
+const frame=document.querySelector('#frame'),out=document.querySelector('#results'),button=document.querySelector('#run');
+const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+async function until(condition,label){const start=performance.now();while(!condition()){if(performance.now()-start>10000)throw Error('Timed out: '+label);await wait(40);}}
+button.onclick=async()=>{
+ button.disabled=true;const results=[];
+ function record(name,passed){results.push({name,passed});out.textContent=JSON.stringify({status:'running',checks:results.length,results},null,2);if(!passed)throw Error(name);}
+ try{
+  await new Promise(resolve=>{frame.onload=resolve;frame.src='/';});
+  const doc=frame.contentDocument,win=frame.contentWindow;
+  const root=doc.querySelector('.explorer-v2');root.scrollIntoView({block:'start'});
+  await until(()=>!root.closest('astro-island').hasAttribute('ssr'),'React island hydration');
+  const expected=['Firmware','Security','Secure boot','Quality management','Verification'];
+  const tabs=[...root.querySelectorAll('[role=tab]')];
+  record('Tab order',JSON.stringify(tabs.map(t=>t.querySelector('span:last-child').textContent))===JSON.stringify(expected));
+  record('Expertise order',JSON.stringify([...doc.querySelectorAll('#expertise .expertise-card h3')].map(e=>e.textContent))===JSON.stringify(expected));
+  record('Skills order',JSON.stringify([...doc.querySelectorAll('.skills-grid h3')].map(e=>e.textContent))===JSON.stringify(expected));
+  record('Project group order',JSON.stringify([...doc.querySelectorAll('.project-area-heading')].map(e=>e.textContent.replace(/^0\d\s*/,'')))===JSON.stringify(expected));
+  record('Timeline responsibility order',JSON.stringify([...doc.querySelectorAll('.timeline-details h4')].map(e=>e.textContent))===JSON.stringify(expected));
+  const ids=['firmware','security','secure-boot','quality','verification'];
+  async function choose(index){tabs[index].click();await until(()=>tabs[index].getAttribute('aria-selected')==='true'&&root.querySelector('#architecture-'+ids[index]+'-title'),expected[index]+' scene');}
+  async function step(index){root.querySelectorAll('.architecture-steps button')[index].click();await until(()=>root.querySelectorAll('.architecture-steps button')[index].getAttribute('aria-current')==='step'&&root.querySelector('svg[role=img] desc').textContent.includes('step '+(index+1)+' of four'),'Step '+index);}
+  for(let i=0;i<5;i++){
+   await choose(i);
+   for(let j=0;j<4;j++){await step(j);record(expected[i]+' step '+(j+1),!!root.querySelector('.architecture-node.node-active, .procedure-active, .test-runner-active'));}
+  }
+  await choose(2);[...root.querySelectorAll('.scenario-controls button')].find(b=>b.textContent==='Altered image').click();await wait(70);await step(3);
+  const application=[...root.querySelectorAll('.architecture-node')].find(n=>n.textContent.includes('Application execution'));
+  record('Altered image blocks application execution',!application.classList.contains('node-active')&&root.querySelector('.architecture-status').textContent.includes('rejected'));
+  await choose(4);[...root.querySelectorAll('.scenario-controls button')].find(b=>b.textContent==='Failing test').click();await wait(70);await step(3);
+  record('Failed verification remains open',root.querySelector('.architecture-status').textContent.includes('review required')&&root.querySelectorAll('.check-danger').length===1);
+  await choose(0);tabs[0].focus();tabs[0].dispatchEvent(new win.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}));await until(()=>tabs[1].getAttribute('aria-selected')==='true','Keyboard tab movement');
+  record('Arrow-key tab navigation',doc.activeElement===tabs[1]);
+  await choose(0);await step(0);root.querySelector('[aria-label="Enable diagram motion"]').click();
+  await until(()=>root.classList.contains('demo-playing'),'Playback start');
+  const start=root.querySelector('[aria-current=step]').textContent;await until(()=>root.querySelector('[aria-current=step]').textContent!==start,'Automatic step advance');
+  record('Playback advances the explanatory sequence',true);
+  root.querySelector('[aria-label="Pause diagram motion"]').click();await wait(80);
+  const paused=root.querySelector('[aria-current=step]').textContent;await wait(3500);
+  record('Pause stops automatic progression',paused===root.querySelector('[aria-current=step]').textContent);
+  record('Pause stops particle animation',win.getComputedStyle(root.querySelector('.flow-particle')).animationPlayState==='paused');
+  root.querySelector('[aria-label="Enable diagram motion"]').click();await wait(80);win.scrollTo(0,0);await until(()=>root.classList.contains('motion-paused'),'Offscreen pause');
+  const offscreen=root.querySelector('[aria-current=step]').textContent;await wait(3500);
+  record('Offscreen progression pauses',offscreen===root.querySelector('[aria-current=step]').textContent);
+  const markup=await (await fetch('/')).text();
+  const mediaPatch='<scr'+'ipt>const originalMatch=window.matchMedia.bind(window);window.matchMedia=q=>q.includes("prefers-reduced-motion")?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:originalMatch(q);</scr'+'ipt>';
+  await new Promise(resolve=>{frame.onload=resolve;frame.srcdoc=markup.replace('<head>','<head>'+mediaPatch);});
+  const reducedDoc=frame.contentDocument;let reducedRoot=reducedDoc.querySelector('.explorer-v2');reducedRoot.scrollIntoView();
+  await until(()=>reducedDoc.querySelector('[aria-label="Pause diagram motion"]')?.disabled,'Reduced-motion hydration');
+  reducedRoot=reducedDoc.querySelector('.explorer-v2');
+  await until(()=>reducedRoot.querySelector('[aria-label="Pause diagram motion"]').disabled,'Reduced-motion hook');
+  record('Reduced-motion preference disables automatic playback',reducedRoot.classList.contains('motion-paused'));
+  const staticStep=reducedRoot.querySelector('[aria-current=step]').textContent;await wait(3500);
+  record('Reduced-motion sequence remains static',staticStep===reducedRoot.querySelector('[aria-current=step]').textContent);
+  reducedRoot.querySelectorAll('[role=tab]')[3].click();await until(()=>reducedRoot.querySelector('#architecture-quality-title'),'Static quality diagram');
+  reducedRoot.querySelectorAll('.architecture-steps button')[3].click();await until(()=>reducedRoot.querySelectorAll('.architecture-steps button')[3].getAttribute('aria-current')==='step','Manual reduced-motion step');
+  record('Reduced-motion mode retains manual step inspection',reducedRoot.classList.contains('motion-paused')&&!!reducedRoot.querySelector('.node-active'));
+  out.textContent=JSON.stringify({status:'complete',checks:results.length,failed:results.filter(r=>!r.passed).length,results},null,2);
+ }catch(error){out.textContent=JSON.stringify({status:'error',error:String(error),results},null,2);}
+ button.disabled=false;
+};
+</script></body></html>

@@ -24,7 +24,7 @@ npm run preview
 
 ## Pages and content
 
-- `/`: introduction, seven expertise cards, interactive engineering walkthrough, six featured projects, career timeline, skills, and contact.
+- `/`: introduction, five ordered expertise cards, interactive engineering walkthrough, six featured projects, career timeline, skills, and contact.
 - `/about/`: background, engineering perspective, capabilities, and explicitly separated learning interests.
 - `/experience/`: supplied professional and education timeline with expandable role details.
 - `/projects/`: complete project overview.
@@ -48,13 +48,18 @@ Platform descriptions consistently use **NXP Power Architecture**. Brushless DC 
 
 The homepage and About page include **Medical Device Compliance & Process Engineering**, covering creation of processes and procedures for IEC 62304, IEC 81001-5-1, and ISO 13485. Edit `src/data/compliance.ts` to update the three standards cards; `src/components/ComplianceSection.astro` provides the shared presentation. Official standard-scope links distinguish software lifecycle, secure health-software lifecycle processes, and medical-device quality management.
 
-Edit `src/data/projects.ts` to change project descriptions. Its typed `Project` model holds each section; all project cards and detail routes derive from that data. To add a case study, add a unique slug and complete `Project` record. Select `scene` 0–4 for a conceptual diagram; extend `Diagram.tsx` for a new architecture. Update the card illustration when adding beyond the original five, and run the checks. Shared navigation and metadata live in `src/layouts/Layout.astro`; styling lives in `src/styles/global.css`.
+Edit `src/data/projects.ts` to change project descriptions. Its typed `Project` model holds each section; all project cards and detail routes derive from that data. To add a case study, add a unique slug and complete `Project` record. Set its `area` to one of the five IDs in `src/data/engineering.ts`. Projects are sorted by that shared order and numbered automatically. Select `scene` 0–5 for a static conceptual diagram; extend `Diagram.tsx` for a new architecture. Card illustrations are mapped by stable project slug, independent of display order. Shared navigation and metadata live in `src/layouts/Layout.astro`; styling lives in `src/styles/global.css`.
 
 ## Interactions and accessibility
 
-`EngineeringExplorer.tsx` provides five user-controlled scenes: firmware, ventilator control, cybersecurity, secure boot, and verification. Native buttons expose pressed state and work with keyboard and touch; previous/next controls wrap through the sequence. There is no automatic scene timer. Motion transitions are brief. Pause stops SVG signal animations; operating-system reduced-motion preferences disable animations. Offscreen/inactive-page signal animation is paused. Initial diagrams are server-rendered; every topic also has a static case-study architecture.
+`EngineeringExplorer.tsx` uses the shared order **Firmware → Security → Secure boot → Quality management → Verification**. The same order controls expertise, skill categories, project groups, and role responsibilities. The Firmware area includes real-time control and motor / valve actuation; the separate control case study remains available.
 
-`ControlLab.tsx` uses an independent normalized second-order educational model. Damping, response frequency, and an optional disturbance change the plot. Overshoot refers only to this generated data. The lower trace is response rate, not measured actuator effort. The model and accessible tabular samples are available in a disclosure. No simulation is clinical evidence or a reproduction of production firmware.
+Each area has four visual stages, animated signal packets, active-node highlights, and a written step explanation. Firmware adds a feedback waveform, rotor, and valve animation; Security shows protected-key boundaries; Secure boot offers valid / altered image paths; Quality management shows SOP drafting, review, controlled release, and retained records; Verification shows traceability and passing / failing demonstration tests. All visual data and outcomes are illustrative.
+
+Tab keys use the accessible tab pattern: Left / Right Arrow, Home, and End move between areas. Selecting a numbered step pauses automatic playback for inspection. Play / pause and replay controls are available. Automatic progression runs only when visible and the document is active, and is disabled for reduced-motion preferences. `AnimatedArchitecture.tsx` provides the SVG artwork; `src/data/architecture-scenes.ts` contains step explanations. The original `Diagram.tsx` provides static diagrams for the hero and case studies.
+
+
+`ControlLab.tsx` provides an independent discrete PID simulation with Kc, Ti, Td, and a first-order IIR measurement-filter time constant. `src/data/control-simulation.ts` computes the closed-loop response at 100 Hz, including derivative on measurement, conditional-integration anti-windup, output limits, reproducible sensor noise, and an optional sustained load disturbance. Ti = 0 disables integration; Td = 0 disables differentiation; filter time constant zero bypasses filtering. Plots show reference, raw measurement, filtered feedback, and the simulated actuator output. The disclosure documents equations, plant assumptions, metric definitions, and accessible tabular data. Use `npm run test:control` for numerical checks. This educational simulation uses no production device data.
 
 Native mobile navigation and timeline disclosures work without client JavaScript. Skip navigation, semantic landmarks, visible focus, labeled controls, diagram descriptions, and reduced-motion support are included.
 
@@ -81,6 +86,8 @@ npm run preview
 ```
 
 Open `http://127.0.0.1:4321/__audit.html`, then choose **Run all accessibility checks**. It runs axe-core and overflow checks on all eleven main pages at 1440, 768, and 390 px. This harness uses the root-path build. Run `npm run build` again afterward to remove the temporary audit page and axe asset from `dist` before packaging or deploying. The harness is not part of the public site.
+
+For the interactive architectures, also open `/__architecture-audit.html` and choose **Run interaction checks**. It checks the shared order, all twenty stages, rejection and failure behavior, keyboard navigation, automatic playback, and pause / offscreen behavior. `scripts/prepare-audit.mjs` prepares both local harnesses; a production rebuild removes them.
 
 ## Cloudflare Web Analytics
 

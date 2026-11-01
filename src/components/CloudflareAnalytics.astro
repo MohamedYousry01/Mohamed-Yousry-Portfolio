@@ -1,0 +1,9 @@
+---
+import { analytics } from '../data/analytics';
+import loader from '../scripts/cloudflare-analytics.js?raw';
+const token = (import.meta.env.PUBLIC_CLOUDFLARE_WEB_ANALYTICS_TOKEN || analytics.cloudflareWebAnalyticsToken).trim();
+if (token && !/^[a-f0-9]{32}$/i.test(token)) {
+  throw new Error('Cloudflare Web Analytics requires the 32-character public site token from data-cf-beacon, not an API token or the complete snippet.');
+}
+---
+{import.meta.env.PROD && token && <script is:inline data-astro-rerun data-cloudflare-token={token} set:html={loader}/>}

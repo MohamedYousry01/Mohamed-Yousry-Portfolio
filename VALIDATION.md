@@ -3,7 +3,7 @@
 ## Passed
 
 - Astro 7.4.4 production static build: 12 generated HTML pages (eleven main pages plus 404), robots.txt, and sitemap.
-- Astro / TypeScript checks: zero errors, warnings, or hints across 26 source files.
+- Astro / TypeScript checks: zero errors, warnings, or hints across 30 source files.
 - Internal link, asset, and anchor validator: 288 checks passed in the updated root build.
 - GitHub Pages repository-path rehearsal: build with `SITE_URL=https://example.github.io` and `BASE_PATH=/engineering-portfolio/`; all 256 link / asset / anchor checks passed, including the supplied resume. Canonical URL and robots sitemap included the repository prefix. This was a local build only.
 - Root build restored after repository-path rehearsal.
@@ -72,3 +72,17 @@ Portrait size refinement: increased circle to 88 px desktop / 72 px mobile. Orig
 
 Standards correction: standardized IEC 81001-5-1 across cards, skills, diagrams, timeline, case-study content, and documentation. Replaced the former connected-system scope with secure health-software lifecycle activities and the official IEC source. Removed drafting notes from the public timeline, Experience page, and ventilator case-study introduction. Build, TypeScript, and all 288 internal-link checks passed.
 Renewed standards-correction browser audit: all 33 page / viewport combinations passed with zero detected accessibility violations or horizontal overflow.
+
+
+## Copy and Cloudflare Web Analytics update — 1 November 2026
+
+- Replaced slogans in the homepage, navigation/contact labels, footer, page headings, engineering-scene headings, case-study architecture titles, and social card with direct descriptions of the work.
+- Kept GitHub Pages hosting and the current repository path. No domain, DNS, hosting-account, commit, push, or publication changes were made.
+- Added the supplied public Cloudflare Web Analytics site token in `src/data/analytics.ts`, shared page integration, and optional GitHub Actions variable support.
+- Loader skips local/test hosts and offline previews, initializes once across Astro client-side transitions, and leaves automatic Cloudflare SPA measurement enabled.
+- Four analytics loader tests passed, including repeated initialization and local-host exclusion. Tests use a mocked browser and do not contact Cloudflare.
+- TypeScript: zero errors, warnings, or hints across 30 source files. Production build and all 288 internal link / asset / anchor checks passed.
+- Configured-token build emitted the loader on all 12 HTML pages; missing-token build emitted none. Final output uses the supplied real public token.
+- Browser checks confirmed the photo loads, direct headings fit desktop/mobile, and no Cloudflare beacon is loaded from localhost.
+- Renewed axe-core / overflow audit: all 33 page / viewport combinations passed with no detected violations or horizontal overflow.
+- Live traffic arrival in the Cloudflare dashboard remains unverified until the owner manually pushes and deploys these changes.

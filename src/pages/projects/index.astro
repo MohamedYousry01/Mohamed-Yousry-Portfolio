@@ -5,6 +5,6 @@ import ProjectCard from '../../components/ProjectCard.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 ---
 <Layout title="Engineering projects" description="Explore six engineering case studies in medical-device firmware, embedded cybersecurity, secure boot, control systems, and software verification.">
-  <section class="page-heading container"><span class="eyebrow">SELECTED ENGINEERING WORK</span><h1>From architecture<br/>to <span>engineering evidence.</span></h1><p>Six perspectives on embedded engineering and compliance. Each case study connects the engineering context, technical decisions, and verification approach.</p></section>
+  <section class="page-heading container"><span class="eyebrow">SELECTED ENGINEERING WORK</span><h1>Engineering <span>case studies</span></h1><p>Six case studies covering firmware, cybersecurity, control, verification, and medical-device compliance.</p></section>
   <section class="container section page-projects"><div class="projects-grid">{projects.map((p,i)=><ProjectCard project={p} featured={i===0 || i===projects.length-1}/>)}</div><p class="notice">These case studies highlight my engineering contributions. Diagrams are conceptual, and confidential implementation details are omitted.</p></section><ContactBlock/>
 </Layout>

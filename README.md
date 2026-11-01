@@ -1,6 +1,6 @@
 # Mohamed Yousry — Engineering portfolio
 
-A local-first, light-mode portfolio for an Embedded Software & Cybersecurity Engineer. Built with Astro, TypeScript, Tailwind CSS, React islands, Motion for React, Lucide, and independently created SVG architecture diagrams. The site is static: no account, database, third-party font requests, or visitor data collection.
+A local-first, light-mode portfolio for an Embedded Software & Cybersecurity Engineer. Built with Astro, TypeScript, Tailwind CSS, React islands, Motion for React, Lucide, and independently created SVG architecture diagrams. The site is static, with no application account, database, or third-party fonts. Cloudflare Web Analytics is configured with the supplied public site token and skips local development traffic.
 
 ## Run locally
 
@@ -24,7 +24,7 @@ npm run preview
 
 ## Pages and content
 
-- `/`: introduction, six expertise cards, interactive engineering walkthrough, six featured projects, career timeline, skills, and contact.
+- `/`: introduction, seven expertise cards, interactive engineering walkthrough, six featured projects, career timeline, skills, and contact.
 - `/about/`: background, engineering perspective, capabilities, and explicitly separated learning interests.
 - `/experience/`: supplied professional and education timeline with expandable role details.
 - `/projects/`: complete project overview.
@@ -82,9 +82,15 @@ npm run preview
 
 Open `http://127.0.0.1:4321/__audit.html`, then choose **Run all accessibility checks**. It runs axe-core and overflow checks on all eleven main pages at 1440, 768, and 390 px. This harness uses the root-path build. Run `npm run build` again afterward to remove the temporary audit page and axe asset from `dist` before packaging or deploying. The harness is not part of the public site.
 
-## GitHub Pages — when ready to publish
+## Cloudflare Web Analytics
 
-Nothing has been uploaded or published as part of this local build. The workflow runs only after you put this source into a GitHub repository and push to `main`, or manually dispatch it.
+The site remains on GitHub Pages. Optional Cloudflare Web Analytics measures traffic and performance without changing hosting or DNS. See [CLOUDFLARE.md](CLOUDFLARE.md) for the free account setup, public site-token configuration, and verification steps. The supplied public site token is configured in `src/data/analytics.ts`; it takes effect after these changes are manually pushed and deployed.
+
+Configure `CLOUDFLARE_WEB_ANALYTICS_TOKEN` as a GitHub repository Actions variable, or set `cloudflareWebAnalyticsToken` in `src/data/analytics.ts`. Never supply a Cloudflare API token. Run `npm run test:analytics` to verify local-host exclusion and once-only initialization across page transitions.
+
+## GitHub Pages deployment
+
+The existing GitHub Pages workflow runs when you push to `main` or manually dispatch it. Local edits are not published until you commit and push them yourself.
 
 1. Review content, supply your real GitHub / email / resume as desired, and verify that all material is approved for public sharing.
 2. Create your chosen GitHub repository. Copy this project source, including dotfiles and `package-lock.json`, into its root. Exclude `node_modules`, `.npm-cache`, `.astro`, `dist`, and test artifacts.
@@ -118,3 +124,4 @@ Configure your domain in the repository’s **Settings → Pages → Custom doma
 The portfolio uses only supplied employment / education dates and areas of professional contribution. It does not claim certification, regulatory approval, achieved coverage percentages, performance gains, or dated project milestones. Embedded Linux, Yocto, and C++ remain learning interests. Diagrams, memory regions, and plots are sanitized, independent illustrations. Verification sections describe engineering considerations, not unpublished test results. Do not insert confidential specifications, proprietary code, production addresses, keys, private protocols, or internal reports.
 
 See `VALIDATION.md` for the results collected for this delivery.
+

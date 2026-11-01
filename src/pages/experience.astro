@@ -6,7 +6,7 @@ import {profile,href} from '../data/profile';
 import Icon from '../components/Icon.astro';
 ---
 <Layout title="Experience & education">
-  <section class="container page-heading"><span class="eyebrow">EXPERIENCE & EDUCATION</span><h1>Built on engineering.<br/><span>Developed through practice.</span></h1><p>4+ years of professional embedded software development, primarily in safety-critical medical devices.</p>{profile.resume?<a class="button primary" href={href(profile.resume)} download={profile.resumeDownloadName}>Download resume <Icon name="download" size={18}/></a>:<p class="resume-status"><Icon name="download" size={18}/> Downloadable resume will be added when the actual file is supplied. Experience is available below.</p>}</section>
+  <section class="container page-heading"><span class="eyebrow">EXPERIENCE & EDUCATION</span><h1>Experience <span>& education</span></h1><p>4+ years of professional embedded software development, primarily in safety-critical medical devices.</p>{profile.resume?<a class="button primary" href={href(profile.resume)} download={profile.resumeDownloadName}>Download resume <Icon name="download" size={18}/></a>:<p class="resume-status"><Icon name="download" size={18}/> Downloadable resume will be added when the actual file is supplied. Experience is available below.</p>}</section>
   <section class="section container"><Timeline/></section><ContactBlock/>
 </Layout>
 

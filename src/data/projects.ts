@@ -7,7 +7,7 @@ export interface Project {
 export const projects: Project[] = [
   {
     slug: 'icu-ventilator-firmware', number: '01', category: 'MEDICAL DEVICE ENGINEERING',
-    title: 'ICU Medical Ventilator Embedded Firmware', shortTitle: 'Firmware with safety at its core.',
+    title: 'ICU Medical Ventilator Embedded Firmware', shortTitle: 'Ventilator control architecture',
     summary: 'Real-time embedded software for pressure regulation, hardware communication, and patient safety alarms in a medical ventilator.',
     tags: ['Embedded C', 'NXP Power Architecture', 'CAN', 'IEC 62304'], scene: 1,
     context: 'Professional embedded development in a safety-critical medical-device environment at Ezzmedical. This case study highlights my engineering contributions; diagrams are conceptual, and confidential implementation details are omitted.',
@@ -21,7 +21,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'hardware-backed-cybersecurity', number: '02', category: 'EMBEDDED CYBERSECURITY',
-    title: 'Hardware-Backed Embedded Cybersecurity', shortTitle: 'A stronger root of trust.',
+    title: 'Hardware-Backed Embedded Cybersecurity', shortTitle: 'Cryptographic services and key protection',
     summary: 'Cryptographic services, key management, and firmware authentication built around hardware-backed security boundaries.',
     tags: ['HSM / SHE', 'AES-CMAC', 'ECC P-256', 'wolfCrypt'], scene: 2,
     context: 'Professional work with embedded cryptography, HSM / SHE services, and secure firmware architecture. Algorithm names describe technical experience; they do not imply that every algorithm executes inside the same hardware security module.',
@@ -35,7 +35,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'secure-boot-firmware-update', number: '03', category: 'FIRMWARE INTEGRITY',
-    title: 'Secure Bootloader & Firmware Update', shortTitle: 'Verify first. Execute with trust.',
+    title: 'Secure Bootloader & Firmware Update', shortTitle: 'Authenticated boot and image rejection',
     summary: 'Bootloader architecture and firmware update management with authenticated images, application validation, and explicit failure handling.',
     tags: ['Secure boot', 'Flash programming', 'HSM', 'Validation'], scene: 3,
     context: 'Professional embedded bootloader and secure-update work. All architecture and memory regions shown here are illustrative: no production addresses, image formats, key material, or security configuration are disclosed.',
@@ -49,7 +49,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'real-time-control-algorithms', number: '04', category: 'CONTROL SYSTEMS',
-    title: 'Real-Time Control Algorithms', shortTitle: 'Closing the loop, in real time.',
+    title: 'Real-Time Control Algorithms', shortTitle: 'Pressure control feedback loop',
     summary: 'Pressure, flow, and brushless DC motor control, supported by PID, PI, ADRC, cascade control, signal filtering, and real-time execution.',
     tags: ['PID / PI', 'ADRC', 'BLDC motor control', 'Signal filtering'], scene: 1,
     context: 'Professional experience developing embedded control algorithms for pressure and flow regulation, including brushless DC (BLDC) motor control. The interactive plot on this page is an independent educational model, not a measurement, clinical prediction, or reproduction of a production controller.',
@@ -63,7 +63,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'safety-critical-verification', number: '05', category: 'SOFTWARE ASSURANCE',
-    title: 'Safety-Critical Embedded Software Verification', shortTitle: 'Evidence behind every decision.',
+    title: 'Safety-Critical Embedded Software Verification', shortTitle: 'Requirements and verification flow',
     summary: 'Requirements traceability, unit and integration testing, coding-rule reviews, and lifecycle evidence for safety-critical firmware.',
     tags: ['VectorCAST', 'Unity', 'MISRA C', 'IEC 62304'], scene: 4,
     context: 'Professional software verification and validation in a medical-device environment. The flow illustrates engineering practice without disclosing internal reports or claiming product certification, regulatory approval, or numerical coverage results.',
@@ -77,7 +77,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'medical-device-compliance', number: '06', category: 'MEDICAL DEVICE COMPLIANCE',
-    title: 'Medical Device Compliance & Process Engineering', shortTitle: 'From standards to everyday engineering practice.',
+    title: 'Medical Device Compliance & Process Engineering', shortTitle: 'Process and procedure development',
     summary: 'Creating processes, procedures, and controlled documentation that support IEC 62304, IEC 81001-5-1, and ISO 13485 compliance.',
     tags: ['IEC 62304', 'IEC 81001-5-1', 'ISO 13485', 'SOP development'], scene: 5,
     context: 'Process and procedure development for medical-device engineering. The focus is on translating applicable standard requirements into clear responsibilities, repeatable activities, controlled documentation, and reviewable evidence.',

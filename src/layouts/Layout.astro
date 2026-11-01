@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import { profile, href } from '../data/profile';
 import Icon from '../components/Icon.astro';
+import CloudflareAnalytics from '../components/CloudflareAnalytics.astro';
 interface Props { title?: string; description?: string }
 const { title = 'Embedded Software & Cybersecurity Engineer', description = profile.description } = Astro.props;
 const pageTitle = `${title} | ${profile.name}`;
@@ -36,12 +37,12 @@ const nav = [['Projects', 'projects/'], ['About', 'about/'], ['Experience', 'exp
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href={href()} aria-label="Mohamed Yousry, home"><span class="brand-mark">MY<span>.</span></span><span class="brand-name">Mohamed Yousry<span>EMBEDDED SYSTEMS ENGINEER</span></span></a>
-        <nav class="desktop-nav" aria-label="Primary navigation">{nav.map(([name,path])=><a href={href(path)} aria-current={current===href(path)?'page':undefined}>{name}</a>)}<a class="nav-contact" href={href('contact/')} aria-current={current===href('contact/')?'page':undefined}>Let’s connect <Icon name="arrow" size={16}/></a></nav>
-        <details class="mobile-nav"><summary aria-label="Open navigation"><span>Menu</span><span aria-hidden="true">☰</span></summary><nav aria-label="Mobile navigation">{nav.map(([name,path])=><a href={href(path)}>{name}</a>)}<a href={href('contact/')}>Let’s connect</a></nav></details>
+        <nav class="desktop-nav" aria-label="Primary navigation">{nav.map(([name,path])=><a href={href(path)} aria-current={current===href(path)?'page':undefined}>{name}</a>)}<a class="nav-contact" href={href('contact/')} aria-current={current===href('contact/')?'page':undefined}>Contact <Icon name="arrow" size={16}/></a></nav>
+        <details class="mobile-nav"><summary aria-label="Open navigation"><span>Menu</span><span aria-hidden="true">☰</span></summary><nav aria-label="Mobile navigation">{nav.map(([name,path])=><a href={href(path)}>{name}</a>)}<a href={href('contact/')}>Contact</a></nav></details>
       </div>
     </header>
     <main id="main" tabindex="-1"><slot/></main>
-    <footer class="site-footer"><div class="container"><div class="footer-top"><a class="brand" href={href()}><span class="brand-mark">MY<span>.</span></span><span>Engineering with purpose.<br/><span class="muted">Building with care.</span></span></a><div class="footer-links"><a href={href('projects/')}>Selected work</a><a href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn <Icon name="external" size={13}/></a><a href={href('contact/')}>Contact</a></div></div><div class="footer-bottom"><span>© {new Date().getFullYear()} Mohamed Yousry</span><span>Embedded software. Security. Safety.</span><a href="#main">Back to top ↑</a></div></div></footer>
+    <footer class="site-footer"><div class="container"><div class="footer-top"><a class="brand" href={href()}><span class="brand-mark">MY<span>.</span></span><span>Mohamed Yousry<br/><span class="muted">Embedded Software & Cybersecurity Engineer</span></span></a><div class="footer-links"><a href={href('projects/')}>Selected work</a><a href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn <Icon name="external" size={13}/></a><a href={href('contact/')}>Contact</a></div></div><div class="footer-bottom"><span>© {new Date().getFullYear()} Mohamed Yousry</span><span>Embedded software & cybersecurity</span><a href="#main">Back to top ↑</a></div></div></footer>
     <script>
       let cleanup = () => {};
       function observeMotion() {
@@ -59,5 +60,6 @@ const nav = [['Projects', 'projects/'], ['About', 'about/'], ['Experience', 'exp
       document.addEventListener('astro:page-load', observeMotion);
       document.addEventListener('astro:before-swap', () => cleanup());
     </script>
+    <CloudflareAnalytics/>
   </body>
 </html>
